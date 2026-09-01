@@ -1,97 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Birthday!</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<div class="container">
-  <h1 class="title">🎉 Happy Birthday! 🎉</h1>
-
-  <div class="mic-status" id="micStatus">
-    🎤 Tap "Start Mic" then blow to extinguish the candles!
-  </div>
-
-  <button id="startMicBtn" class="btn">Start Microphone</button>
-
-  <div class="volume-meter">
-    <div class="volume-bar" id="volumeBar"></div>
-  </div>
-
-  <!-- CAKE -->
-  <div class="cake-scene">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Candle Blow</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+  </head>
+  <body>
+    <div class="candle-count-display">
+      Candles on the Cake: <span id="candleCount">0</span>
+    </div>
     <div class="cake">
-      <div class="candles" id="candles">
-        <div class="candle">
-          <div class="flame" id="flame1"></div>
-        </div>
-        <div class="candle">
-          <div class="flame" id="flame2"></div>
-        </div>
-        <div class="candle">
-          <div class="flame" id="flame3"></div>
-        </div>
-      </div>
-      <div class="cake-top"></div>
-      <div class="cake-icing"></div>
-      <div class="cake-middle"></div>
-      <div class="cake-bottom"></div>
       <div class="plate"></div>
+      <div class="layer layer-bottom"></div>
+      <div class="layer layer-middle"></div>
+      <div class="layer layer-top"></div>
+      <div class="icing"></div>
+      <div class="drip drip1"></div>
+      <div class="drip drip2"></div>
+      <div class="drip drip3"></div>
     </div>
-  </div>
-
-  <div class="success-message" id="successMessage">
-    🎂 All candles blown out! Make a wish! 🌟
-  </div>
-
-  <!-- MUSIC SELECTION -->
-  <div class="music-section">
-    <h3>🎵 Choose a Birthday Song</h3>
-    <select id="musicSelect" class="music-select">
-      <option value="">-- Select a Song --</option>
-      <option value="song1">Happy Birthday (Classic)</option>
-      <option value="song2">Happy Birthday (Cheerful)</option>
-      <option value="song3">Happy Birthday (Party)</option>
-    </select>
-    <div class="music-controls">
-      <button id="playMusicBtn" class="btn small">▶️ Play</button>
-      <button id="stopMusicBtn" class="btn small">⏹️ Stop</button>
-    </div>
-  </div>
-
-  <!-- PRESENT -->
-  <div class="present-section">
-    <h3>🎁 You Got a Gift!</h3>
-    <div class="present" id="present">
-      <div class="present-lid"></div>
-      <div class="present-box"></div>
-      <div class="ribbon-v"></div>
-      <div class="ribbon-h"></div>
-      <div class="bow">🎀</div>
-    </div>
-    <p class="hint">Tap the present to open it!</p>
-  </div>
-
-  <!-- WISH MESSAGE MODAL -->
-  <div class="wish-modal" id="wishModal">
-    <div class="wish-content">
-      <button class="close-btn" id="closeWishBtn">✖</button>
-      <h2>🌟 Birthday Wish 🌟</h2>
-      <p id="wishText">
-        Wishing you a day filled with happiness,
-        a year filled with joy, and a life filled with love.
-        Happy Birthday! 🎂🎈🎉
-      </p>
-      <div class="emoji-row">🎈🎊🎁🎉🍰</div>
-    </div>
-  </div>
-
-  <canvas id="confettiCanvas"></canvas>
-</div>
-
-<script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
