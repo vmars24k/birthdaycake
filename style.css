@@ -250,9 +250,22 @@ body {
   margin: 15px auto;
   max-width: 320px;
   font-weight: bold;
-  animation: pop 0.4s ease;
   position: relative;
   z-index: 2;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+/* Shown state — triggers the pop-in animation and fades to visible */
+.success-message.show {
+  display: block;
+  opacity: 1;
+  animation: pop 0.4s ease;
+}
+
+/* Fading-out state — smoothly transitions opacity back to 0 */
+.success-message.fade-out {
+  opacity: 0;
 }
 
 @keyframes pop {
