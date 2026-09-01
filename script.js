@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (candlesLeft === 0) {
       setTimeout(() => {
-        successMessage.style.display = "block";
+        showSuccessMessage();
         launchConfettiBurst();
       }, 400);
     }
@@ -73,6 +73,24 @@ document.addEventListener("DOMContentLoaded", function () {
     smoke.style.left = "50%";
     segEl.appendChild(smoke);
     setTimeout(() => smoke.remove(), 1200);
+  }
+
+  // ============ SUCCESS MESSAGE (show then fade out) ============
+  function showSuccessMessage() {
+    // Reset any previous fade state, then show
+    successMessage.classList.remove("fade-out");
+    successMessage.classList.add("show");
+
+    // After displaying for a few seconds, fade it out smoothly
+    setTimeout(() => {
+      successMessage.classList.add("fade-out");
+
+      // Once the fade transition finishes, fully hide it from layout
+      setTimeout(() => {
+        successMessage.classList.remove("show");
+        successMessage.classList.remove("fade-out");
+      }, 1000); // matches the CSS transition duration
+    }, 3000); // how long the message stays fully visible before fading
   }
 
   // ============ MUSIC (Real Audio File via <audio> element) ============
