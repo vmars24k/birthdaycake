@@ -1,27 +1,49 @@
 body {
-  background-color: #333;
+  background: linear-gradient(180deg, #a8d8f0 0%, #d4ecf7 40%, #e8f6e3 60%, #c5e8a0 100%);
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
 }
 
-.candle-count-display {
+/* ---------------- FIREWORKS CANVAS ---------------- */
+#birthday {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ---------------- TITLE ---------------- */
+.title {
   text-align: center;
-  margin-top: 150px;
-  margin-bottom: 20px;
-  font-family: 'Arial', sans-serif;
-  font-size: 20px;
-  color: #6A4B18;
-  background-color: #F0E4D0;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
-  border: 2px solid #553C13;
+  font-family: 'Brush Script MT', cursive, sans-serif;
+  font-size: 2.6rem;
+  color: #0093FF;
+  margin: 40px 0 5px 0;
+  position: relative;
+  z-index: 2;
 }
 
-.candle-count-display span {
-  font-weight: bold;
-  color: #AD030F;
+.subtitle {
+  text-align: center;
+  color: #FFFFFF;
+  font-size: 1rem;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ---------------- CAKE SCENE ---------------- */
+.cake-wrapper {
+  position: relative;
+  height: 260px;
+  margin-bottom: 10px;
+  z-index: 2;
 }
 
 .cake {
@@ -30,7 +52,7 @@ body {
   height: 200px;
   top: 50%;
   left: 50%;
-  margin-top: -70px;
+  margin-top: -30px;
   margin-left: -125px;
 }
 
@@ -56,20 +78,16 @@ body {
   height: 100px;
   border-radius: 50%;
   background-color: #553c13;
-  box-shadow: 0 2px 0px #6a4b18, 0 4px 0px #33240b, 0 6px 0px #32230b, 0 8px 0px #31230b, 0 10px 0px #30220b, 0 12px 0px #2f220b, 0 14px 0px #2f210a, 0 16px 0px #2e200a, 0 18px 0px #2d200a, 0 20px 0px #2c1f0a, 0 22px 0px #2b1f0a, 0 24px 0px #2a1e09, 0 26px 0px #2a1d09, 0 28px 0px #291d09, 0 30px 0px #281c09;
+  box-shadow: 0 2px 0px #6a4b18, 0 4px 0px #33240b, 0 6px 0px #32230b,
+    0 8px 0px #31230b, 0 10px 0px #30220b, 0 12px 0px #2f220b,
+    0 14px 0px #2f210a, 0 16px 0px #2e200a, 0 18px 0px #2d200a,
+    0 20px 0px #2c1f0a, 0 22px 0px #2b1f0a, 0 24px 0px #2a1e09,
+    0 26px 0px #2a1d09, 0 28px 0px #291d09, 0 30px 0px #281c09;
 }
 
-.layer-top {
-  top: 0px;
-}
-
-.layer-middle {
-  top: 33px;
-}
-
-.layer-bottom {
-  top: 66px;
-}
+.layer-top { top: 0px; }
+.layer-middle { top: 33px; }
+.layer-bottom { top: 66px; }
 
 .icing {
   top: 2px;
@@ -93,95 +111,291 @@ body {
 }
 
 .drip {
- display: block;
+  display: block;
   width: 50px;
   height: 60px;
   border-bottom-left-radius: 25px;
   border-bottom-right-radius: 25px;
-  background-color: #f0e4d0; 
+  background-color: #f0e4d0;
 }
 
-.drip1 {
-  top: 53px;
-  left: 5px;
-  transform: skewY(15deg);
-  height: 48px;
-  width: 40px;
-}
+.drip1 { top: 53px; left: 5px; transform: skewY(15deg); height: 48px; width: 40px; }
+.drip2 { top: 69px; left: 181px; transform: skewY(-15deg); }
+.drip3 { top: 54px; left: 90px; width: 80px; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; }
 
-.drip2 {
-  top: 69px;
-  left: 181px;
-  transform: skewY(-15deg);
-}
-
-.drip3 {
-  top: 54px;
-  left: 90px;
-  width: 80px;
-  border-bottom-left-radius: 40px;
-  border-bottom-right-radius: 40px;
-}
-
-.candle {
-  background-color: #7B020B;
-  width: 12px;
-  height: 35px;
-  border-radius: 6px/3px;
-  top: -20px;
-  left: 50%;
-  margin-left: -8px;
+/* ---------------- CANDLE HOLDER (positions the "22") ---------------- */
+.candle-holder {
+  position: absolute;
+  top: -95px;
+  left: 20px;
+  width: 210px;
+  height: 95px;
   z-index: 10;
+  display: flex;
+  gap: 14px;
 }
-.candle:before {
+
+/* Each "2" candle-number is built from 5 rectangular wax "segments"
+   arranged to form the digit shape, using a candy-cane stripe pattern.
+   Now using relative sizing (em/%) so it scales responsively via
+   font-size on .candle-num for mobile breakpoints below. */
+.candle-num {
+  position: relative;
+  width: 80px;
+  height: 95px;
+  top: 35px;
+  left: 20px;
+  font-size: 1rem; /* base scale unit — media queries adjust this */
+  transform-origin: top left;
+}
+
+.seg {
+  position: absolute;
+  background: repeating-linear-gradient(
+    45deg,
+    #7b020b 0px, #7b020b 6px,
+    #ffffff 6px, #ffffff 12px
+  );
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  transition: opacity 0.5s ease, filter 0.5s ease;
+}
+
+/* Segments forming the shape of "2":
+   top bar, upper-right vertical, middle diagonal/bar,
+   lower-left vertical(ish), bottom bar.
+   Converted to em units (relative to .candle-num font-size)
+   so the whole "2" scales proportionally on smaller screens. */
+.seg-top        { top: 0em;     left: 0.3125em; width: 4.0625em; height: 0.875em; }
+.seg-upperRight { top: 0.625em; left: 3.5em;     width: 0.875em; height: 2.5em;   transform: rotate(0deg); }
+.seg-midBar     { top: 2.625em; left: 0.3125em;  width: 4.0625em; height: 0.875em; transform: rotate(0deg); }
+.seg-lowerLeft  { top: 2.875em; left: 0.375em;   width: 0.875em; height: 2.5em;   transform: rotate(0deg); }
+.seg-bottom     { top: 5em;     left: 0.3125em;  width: 4.6875em; height: 0.875em; }
+
+/* Only the TOP segment of each "2" gets a wick + flame — this
+   represents ONE lit candle per digit (2 total lit flames) */
+.seg-top::before {
+  /* wick */
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 12px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: #ad030f;
-}
-
-.candle.out .flame {
-  display: none;
-}
-
-.flame {
-  position: absolute;
-  background-color: orange;
-  width: 10px;
-  height: 25px;
-  border-radius: 8px 8px 8px 8px/20px 20px 8px 8px;
-  top: -34px;
+  top: -0.625em;
   left: 50%;
-  margin-left: -7.5px;
-  z-index: 10;
-  box-shadow: 0 0 10px rgba(255, 165, 0, 0.5), 0 0 20px rgba(255, 165, 0, 0.5), 0 0 60px rgba(255, 165, 0, 0.5), 0 0 80px rgba(255, 165, 0, 0.5);
-  transform-origin: 50% 90%;
-  animation: flicker 1s ease-in-out alternate infinite;
+  transform: translateX(-50%);
+  width: 0.1875em;
+  height: 0.625em;
+  background: #333;
+  z-index: 2;
+}
+
+.seg-top::after {
+  /* flame */
+  content: "";
+  position: absolute;
+  top: -2em;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0.875em;
+  height: 1.75em;
+  background: radial-gradient(circle, #fff3b0 0%, #ffb703 45%, #fb5607 100%);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  box-shadow: 0 0 1em 0.3125em rgba(255, 165, 0, 0.75);
+  animation: flicker 0.3s infinite alternate;
+  z-index: 3;
+  transform-origin: bottom center;
+  transition: opacity 0.4s, transform 0.4s;
+  opacity: 1;
+}
+
+/* Extinguished state — only applies to the lit seg-top */
+.seg-top.out::after {
+  opacity: 0;
+  transform: translateX(-50%) scaleY(0.1);
+  box-shadow: none;
+}
+
+.seg-top.out {
+  filter: grayscale(60%) brightness(0.85);
 }
 
 @keyframes flicker {
-  0% {
-    transform: skewX(5deg);
-    box-shadow: 0 0 10px rgba(255, 165, 0, 0.2), 0 0 20px rgba(255, 165, 0, 0.2), 0 0 60px rgba(255, 165, 0, 0.2), 0 0 80px rgba(255, 165, 0, 0.2);
+  0% { transform: translateX(-50%) rotate(-4deg) scaleY(1); }
+  100% { transform: translateX(-50%) rotate(4deg) scaleY(1.1); }
+}
+
+/* Smoke puff when blown out */
+.smoke {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: rgba(200,200,200,0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: smokeRise 1.2s ease-out forwards;
+  z-index: 4;
+}
+
+@keyframes smokeRise {
+  0% { opacity: 0.7; transform: translate(-50%, 0) scale(1); }
+  100% { opacity: 0; transform: translate(-90%, -70px) scale(3); }
+}
+
+/* ---------------- SUCCESS MESSAGE ---------------- */
+.success-message {
+  display: none;
+  text-align: center;
+  background: #d4edda;
+  color: #155724;
+  padding: 12px;
+  border-radius: 10px;
+  margin: 15px auto;
+  max-width: 320px;
+  font-weight: bold;
+  animation: pop 0.4s ease;
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ---------------- BOTTOM CONTROL BAR ---------------- */
+.control-bar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.9);
+  border-radius: 40px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  max-width: 92%;
+  z-index: 50;
+}
+
+.circle-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.play-btn {
+  background: #e53935;
+  box-shadow: 0 4px 10px rgba(229, 57, 53, 0.4);
+}
+
+.gift-btn {
+  background: #add8e6;
+  box-shadow: 0 4px 10px rgba(173, 216, 230, 0.6);
+}
+
+/* ---------------- WISH MODAL ---------------- */
+.wish-modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+
+.wish-modal.show { display: flex; }
+
+.wish-content {
+  background: #fff;
+  padding: 30px 25px;
+  border-radius: 20px;
+  max-width: 340px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  animation: pop 0.4s ease;
+}
+
+.wish-content h2 { color: #1434a4; margin-bottom: 15px; }
+.wish-content p { color: #333; line-height: 1.6; }
+.emoji-row { font-size: 1.5rem; margin-top: 15px; }
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #888;
+}
+
+#confettiCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 200;
+}
+
+/* ---------------- RESPONSIVE BREAKPOINTS ---------------- */
+
+/* Tablets / small laptops */
+@media (max-width: 600px) {
+  .candle-holder {
+    left: 15px;
+    width: 190px;
+    gap: 10px;
   }
-  25% {
-    transform: skewX(-5deg);
-    box-shadow: 0 0 10px rgba(255, 165, 0, 0.5), 0 0 20px rgba(255, 165, 0, 0.5), 0 0 60px rgba(255, 165, 0, 0.5), 0 0 80px rgba(255, 165, 0, 0.5);
+  .candle-num {
+    font-size: 0.9rem;
   }
-  50% {
-    transform: skewX(10deg);
-    box-shadow: 0 0 10px rgba(255, 165, 0, 0.3), 0 0 20px rgba(255, 165, 0, 0.3), 0 0 60px rgba(255, 165, 0, 0.3), 0 0 80px rgba(255, 165, 0, 0.3);
+}
+
+/* Standard mobile phones */
+@media (max-width: 480px) {
+  .candle-holder {
+    left: 10px;
+    width: 170px;
+    gap: 8px;
+    top: -85px;
   }
-  75% {
-    transform: skewX(-10deg);
-    box-shadow: 0 0 10px rgba(255, 165, 0, 0.4), 0 0 20px rgba(255, 165, 0, 0.4), 0 0 60px rgba(255, 165, 0, 0.4), 0 0 80px rgba(255, 165, 0, 0.4);
+  .candle-num {
+    top: 30px;
+    left: 35px;
   }
-  100% {
-    transform: skewX(5deg);
-    box-shadow: 0 0 10px rgba(255, 165, 0, 0.5), 0 0 20px rgba(255, 165, 0, 0.5), 0 0 60px rgba(255, 165, 0, 0.5), 0 0 80px rgba(255, 165, 0, 0.5);
+}
+
+/* Small mobile phones */
+@media (max-width: 400px) {
+  .candle-holder {
+    left: 40px;
+    width: 150px;
+    gap: 6px;
+    top: -78px;
+  }
+  .candle-num {
+    top: 28px;
+    left: 10px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 320px) {
+  .candle-num {
+    top: 25px;
+    left: 40px;
   }
 }
