@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Candle Blow</title>
+    <title>Happy 22nd Birthday!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
       rel="stylesheet"
@@ -12,19 +12,83 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
   </head>
   <body>
-    <div class="candle-count-display">
-      Candles on the Cake: <span id="candleCount">0</span>
+
+    <!-- Fireworks background canvas -->
+    <canvas id="birthday"></canvas>
+
+    <h1 class="title">Happy Birthday Kent!</h1>
+    <p class="subtitle" id="subtitle">Make a wish, and blow out the candles!!!</p>
+
+    <!-- CAKE with candles shaped like "22" -->
+    <div class="cake-wrapper">
+      <div class="cake">
+        <div class="candle-holder" id="candleHolder">
+          <!-- Candle "2" (left) -->
+          <div class="candle-num" id="numLeft">
+            <div class="seg seg-top"></div>
+            <div class="seg seg-upperRight"></div>
+            <div class="seg seg-midBar"></div>
+            <div class="seg seg-lowerLeft"></div>
+            <div class="seg seg-bottom"></div>
+          </div>
+          <!-- Candle "2" (right) -->
+          <div class="candle-num" id="numRight">
+            <div class="seg seg-top"></div>
+            <div class="seg seg-upperRight"></div>
+            <div class="seg seg-midBar"></div>
+            <div class="seg seg-lowerLeft"></div>
+            <div class="seg seg-bottom"></div>
+          </div>
+        </div>
+
+        <div class="plate"></div>
+        <div class="layer layer-bottom"></div>
+        <div class="layer layer-middle"></div>
+        <div class="layer layer-top"></div>
+        <div class="icing"></div>
+        <div class="drip drip1"></div>
+        <div class="drip drip2"></div>
+        <div class="drip drip3"></div>
+      </div>
     </div>
-    <div class="cake">
-      <div class="plate"></div>
-      <div class="layer layer-bottom"></div>
-      <div class="layer layer-middle"></div>
-      <div class="layer layer-top"></div>
-      <div class="icing"></div>
-      <div class="drip drip1"></div>
-      <div class="drip drip2"></div>
-      <div class="drip drip3"></div>
+
+    <div class="success-message" id="successMessage">
+      🎂 Both candles blown out! Happy 22nd! 🌟
     </div>
+
+    <!-- Bottom control bar (Play music / Gift) -->
+    <div class="control-bar">
+      <button id="playMusicBtn" class="circle-btn play-btn" title="Play Song">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="white">
+          <polygon points="5,3 19,12 5,21" />
+        </svg>
+      </button>
+
+      <button id="giftBtn" class="circle-btn gift-btn" title="Open Gift">
+        🎁
+      </button>
+    </div>
+
+    <!-- Hidden audio element for real music file playback -->
+    <audio id="birthdayAudio" src="audio/song1.mp3" preload="auto"></audio>
+
+    <!-- Wish Modal (opens from gift) -->
+    <div class="wish-modal" id="wishModal">
+      <div class="wish-content">
+        <button class="close-btn" id="closeWishBtn">✖</button>
+        <h2>🌟 Happy 22nd Birthday! 🌟</h2>
+        <p>
+          Here's to 22 years of amazing memories and 
+          many more to come. Wishing you laughter, love, 
+          and all your dreams coming true this year!
+        </p>
+        <div class="emoji-row">🎈🎊🎉🍰🎁</div>
+      </div>
+    </div>
+
+    <canvas id="confettiCanvas"></canvas>
+
+    <script src="fireworks.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
